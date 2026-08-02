@@ -1,16 +1,11 @@
-import { LibraryBig } from "lucide-react";
+import Logo from "../common/Logo";
 import Link from "next/link";
 
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200/60 bg-white/80 backdrop-blur-lg">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-1 text-emerald-600">
-          <LibraryBig />
-          <span className="text-2xl font-bold tracking-tight text-zinc-900">
-            Book<span className="text-emerald-600">Nest</span>
-          </span>
-        </Link>
+        <Logo />
 
         <div className="flex items-center gap-3">
           <Link

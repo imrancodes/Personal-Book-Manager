@@ -1,5 +1,5 @@
-import { LibraryBig } from "lucide-react";
 import Link from "next/link";
+import Logo from "../common/Logo";
 
 const productLinks = [
   {
@@ -40,12 +40,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-1 text-emerald-600">
-              <LibraryBig />
-              <span className="text-2xl font-bold tracking-tight text-zinc-900">
-                Book<span className="text-emerald-600">Nest</span>
-              </span>
-            </Link>
+            <Logo />
 
             <p className="mt-5 text-base leading-6 text-zinc-600 flex flex-col">
               <span>Manage Your Books.</span>

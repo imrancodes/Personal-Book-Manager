@@ -7,7 +7,7 @@ export default function CTA() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid items-center gap-12 overflow-hidden rounded-[32px] border border-emerald-100 bg-gradient-to-r from-emerald-50 via-white to-emerald-50 px-8 py-10 shadow-sm lg:grid-cols-2 lg:px-16 lg:py-14">
           <div className="flex items-center justify-center">
-            <div className="flex h-72 w-full items-center justify-center rounded-3xl">
+            <div className="flex h-72 items-center justify-center rounded-3xl">
                 <Image
                   src="/book-illustration.webp"
                   alt="Illustration"

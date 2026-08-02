@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
       className={`h-full antialiased`}
     >
       <body className={`${geist.className} min-h-full flex flex-col`}>{children}</body>
+      <Toaster/>
     </html>
   );
 }
