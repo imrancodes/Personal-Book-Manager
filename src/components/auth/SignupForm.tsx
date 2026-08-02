@@ -29,7 +29,6 @@ export default function SignupForm() {
       router.push("/dashboard");
     } catch (error) {
       console.error(error);
-
       toast.error(error instanceof Error ? error.message : "Signup failed");
     }
   };

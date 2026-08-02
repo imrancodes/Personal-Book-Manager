@@ -1,11 +1,14 @@
 'use client';
 
+import AddBookDialog from "@/src/components/dashboard/AddBookDialog";
 import { logout } from "@/src/utlis/user-utlis";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const handleLogout = async () => {
     try {
       await logout();
@@ -18,6 +21,9 @@ export default function Dashboard() {
   return (
     <>
       <button onClick={handleLogout}>Logout</button>
+      <button  onClick={() => setOpen(true)}>Add Book</button>
+
+      <AddBookDialog open={open} onClose={() => setOpen(false)} />
     </>
   );
 }
