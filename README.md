@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Book Manager
+
+A simple personal book management application built with Next.js. It allows users to manage their reading collection by adding, updating, deleting, searching, and filtering books. Authentication is handled using JWT.
+
+## Features
+
+- User authentication (Signup, Login, Logout)
+- Protected routes using Next.js middleware
+- Add a new book
+- Edit existing books
+- Delete books
+- Search books by title or author
+- Filter books by reading status
+- Dashboard with reading statistics
+- Responsive UI
+
+## Tech Stack
+
+### Frontend
+
+- Next.js 15 (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- React Hook Form
+- Zod
+- React Hot Toast
+- Lucide React
+
+### Backend
+
+- Next.js API Routes
+- MongoDB
+- Mongoose
+- JWT Authentication
+- bcrypt
+
+## Folder Structure
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── auth/
+│   │   └── books/
+│   ├── dashboard/
+│   ├── login/
+│   ├── signup/
+│   ├── layout.tsx
+│   └── page.tsx
+│   └── global.css
+│
+├── components/
+│   ├── auth/
+│   ├── common/
+│   ├── dashboard/
+│   └── home/
+│   └── layout/
+│
+├── lib/
+├── models/
+├── types/
+├── utils/
+└── middleware.ts
+```
 
 ## Getting Started
 
-First, run the development server:
+Clone the repository
+
+```bash
+git clone https://github.com/imrancodes/Personal-Book-Manager
+```
+
+Go to the project directory
+
+```bash
+cd Personal-Book-Manager
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env.local` file
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
+
+Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Authentication
 
-## Learn More
+Authentication is implemented using JWT.
 
-To learn more about Next.js, take a look at the following resources:
+- Users receive a token after login.
+- The token is stored in an HTTP-only cookie.
+- Middleware protects authenticated routes.
+- Logged-in users cannot access Login or Signup pages.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Book Model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```ts
+{
+  title: string;
+  author: string;
+  tags: string[];
+  status: "want-to-read" | "reading" | "completed";
+}
+```
 
-## Deploy on Vercel
+## API Routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Method | Endpoint | Description |
+| ------- | -------- | ----------- |
+| POST | `/api/auth/signup` | Register a new user |
+| POST | `/api/auth/login` | Login |
+| POST | `/api/auth/logout` | Logout |
+
+### Books
+
+| Method | Endpoint | Description |
+| ------- | -------- | ----------- |
+| GET | `/api/books` | Get all books and dashboard stats |
+| POST | `/api/books` | Add a new book |
+| PATCH | `/api/books/:id` | Update a book |
+| DELETE | `/api/books/:id` | Delete a book |
+
+## Validation
+
+Form validation is handled using **React Hook Form** and **Zod** on the client side. API routes also validate incoming data before saving it to the database.
+
+## Future Improvements
+
+- Pagination or infinite scrolling
+- Sorting options
+- Book cover images
+- Reading progress
+- Dark mode
+- User profile page
+
+## License
+
+This project is created for learning and assessment purposes.
