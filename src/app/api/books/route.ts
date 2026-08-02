@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { connectDB } from "@/src/lib/db";
 import { bookSchema } from "@/src/lib/validations/book";
 import Book from "@/src/models/Book";
+import User from "@/src/models/User";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -51,6 +52,65 @@ export async function POST(req: NextRequest) {
         status: 201,
       }
     );
+  } catch (error) {
+    console.log(error);
+
+    return NextResponse.json(
+      {
+        message: "Something went wrong.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const token = req.cookies.get("token")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as {
+      id: string;
+    };
+
+    const user = await User.findById(decoded.id);
+
+    const books = await Book.find({
+      userId: decoded.id,
+    });
+
+    return NextResponse.json({
+      user: {
+        name: user.name,
+      },
+
+      books,
+
+      stats: {
+        total: books.length,
+        reading: books.filter(
+          (book) => book.status === "reading"
+        ).length,
+
+        completed: books.filter(
+          (book) => book.status === "completed"
+        ).length,
+
+        wantToRead: books.filter(
+          (book) => book.status === "want-to-read"
+        ).length,
+      },
+    });
   } catch (error) {
     console.log(error);
 

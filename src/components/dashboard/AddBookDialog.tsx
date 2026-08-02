@@ -1,20 +1,28 @@
 "use client";
 
 import { bookSchema } from "@/src/lib/validations/book";
-import { BookFormData } from "@/src/types/book";
-import { addBook } from "@/src/utlis/book-utlis";
+import { Book, BookFormData } from "@/src/types/book";
+import { addBook, updateBook } from "@/src/utlis/book-utlis";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Loader from "../common/loader";
+import { useEffect } from "react";
 
 interface AddBookDialogProps {
   open: boolean;
   onClose: () => void;
+  book?: Book | null;
+  onSuccess: () => Promise<void>;
 }
 
-export default function AddBookDialog({ open, onClose }: AddBookDialogProps) {
+export default function AddBookDialog({
+  open,
+  onClose,
+  book,
+  onSuccess = async () => {},
+}: AddBookDialogProps) {
   const {
     register,
     handleSubmit,
@@ -24,6 +32,24 @@ export default function AddBookDialog({ open, onClose }: AddBookDialogProps) {
     resolver: zodResolver(bookSchema),
   });
 
+  useEffect(() => {
+    if (book) {
+      reset({
+        title: book.title,
+        author: book.author,
+        tags: book.tags.join(", "),
+        status: book.status,
+      });
+    } else {
+      reset({
+        title: "",
+        author: "",
+        tags: "",
+        status: "want-to-read",
+      });
+    }
+  }, [book, reset]);
+
   const handleClose = () => {
     reset();
     onClose();
@@ -31,13 +57,18 @@ export default function AddBookDialog({ open, onClose }: AddBookDialogProps) {
 
   const onSubmit = async (data: BookFormData) => {
     try {
-      await addBook(data);
-      toast.success("Book added successfully!");
+      if (book) {
+        await updateBook(book._id, data);
+        toast.success("Book updated successfully!");
+      } else {
+        await addBook(data);
+        toast.success("Book added successfully!");
+      }
+      await onSuccess();
       handleClose();
     } catch (error) {
-      console.error(error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to add book",
+        error instanceof Error ? error.message : "Something went wrong",
       );
     }
   };
@@ -57,7 +88,7 @@ export default function AddBookDialog({ open, onClose }: AddBookDialogProps) {
         <div className="flex items-center justify-between px-6 pt-6">
           <div>
             <h2 className="text-xl font-semibold text-zinc-900">
-              Add New Book
+              {book ? "Edit Book" : "Add New Book"}
             </h2>
           </div>
 
@@ -162,8 +193,10 @@ export default function AddBookDialog({ open, onClose }: AddBookDialogProps) {
               {isSubmitting ? (
                 <div className="flex items-center gap-2">
                   <Loader className="h-5 w-5 fill-white text-emerald-300" />
-                  {"Adding"}
+                  {book ? "Updating..." : "Adding..."}
                 </div>
+              ) : book ? (
+                "Update Book"
               ) : (
                 "Add Book"
               )}

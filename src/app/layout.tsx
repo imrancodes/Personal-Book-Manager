@@ -18,12 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`h-full antialiased`}
-    >
-      <body className={`${geist.className} min-h-full flex flex-col`}>{children}</body>
-      <Toaster/>
+    <html lang="en" className={`h-full antialiased`}>
+      <body className={`${geist.className} min-h-full flex flex-col`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
