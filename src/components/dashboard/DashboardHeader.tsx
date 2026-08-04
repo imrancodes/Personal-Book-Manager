@@ -7,6 +7,7 @@ import Logo from "../common/Logo";
 import { logout } from "@/src/utlis/user-utlis";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { LibraryBig } from "lucide-react";
 
 interface DashboardHeaderProps {
   fetchData: () => Promise<void>;
@@ -34,9 +35,13 @@ export default function DashboardHeader({
       <header className="border-b border-zinc-200 bg-white">
         <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6 lg:px-8">
           {/* Logo */}
-          <Logo />
+          <div className="flex items-center gap-1 text-emerald-600">
+            <LibraryBig />
+            <span className="text-2xl font-bold tracking-tight text-zinc-900">
+              Book<span className="text-emerald-600">Nest</span>
+            </span>
+          </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-3">
             <button
               onClick={onAddBook}
